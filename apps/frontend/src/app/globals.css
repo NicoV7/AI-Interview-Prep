@@ -1,0 +1,213 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --card: #ffffff;
+  --card-foreground: #171717;
+  --popover: #ffffff;
+  --popover-foreground: #171717;
+  --primary: #3b82f6;
+  --primary-foreground: #ffffff;
+  --secondary: #f1f5f9;
+  --secondary-foreground: #0f172a;
+  --muted: #f1f5f9;
+  --muted-foreground: #64748b;
+  --accent: #f1f5f9;
+  --accent-foreground: #0f172a;
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+  --border: #e2e8f0;
+  --input: #e2e8f0;
+  --ring: #3b82f6;
+}
+
+.dark {
+  --background: #0f172a;
+  --foreground: #f8fafc;
+  --card: #0f172a;
+  --card-foreground: #f8fafc;
+  --popover: #0f172a;
+  --popover-foreground: #f8fafc;
+  --primary: #60a5fa;
+  --primary-foreground: #0f172a;
+  --secondary: #1e293b;
+  --secondary-foreground: #f8fafc;
+  --muted: #1e293b;
+  --muted-foreground: #94a3b8;
+  --accent: #1e293b;
+  --accent-foreground: #f8fafc;
+  --destructive: #dc2626;
+  --destructive-foreground: #f8fafc;
+  --border: #1e293b;
+  --input: #1e293b;
+  --ring: #93c5fd;
+}
+
+.night {
+  --background: #000000;
+  --foreground: #ffffff;
+  --card: #000000;
+  --card-foreground: #ffffff;
+  --popover: #000000;
+  --popover-foreground: #ffffff;
+  --primary: #ff8c00;
+  --primary-foreground: #000000;
+  --secondary: #1a1a1a;
+  --secondary-foreground: #ffffff;
+  --muted: #1a1a1a;
+  --muted-foreground: #b3b3b3;
+  --accent: #ff8c00;
+  --accent-foreground: #000000;
+  --destructive: #ff4444;
+  --destructive-foreground: #ffffff;
+  --border: #333333;
+  --input: #1a1a1a;
+  --ring: #ff8c00;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+html {
+  background: var(--background);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Ensure theme transitions work smoothly */
+* {
+  transition: border-color 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Force proper theme application */
+.light {
+  color-scheme: light;
+}
+
+.dark {
+  color-scheme: dark;
+}
+
+.night {
+  color-scheme: dark;
+}
+
+/* Typewriter cursor animation */
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+.typewriter-cursor {
+  animation: blink 1s infinite;
+}
+
+/* Glowing button effect - simplified and reliable */
+@keyframes glow-pulse {
+  0%, 100% {
+    box-shadow: 
+      0 0 5px var(--primary),
+      0 0 10px var(--primary),
+      0 0 15px var(--primary),
+      inset 0 0 5px rgba(255, 255, 255, 0.1);
+  }
+  50% {
+    box-shadow: 
+      0 0 10px var(--primary),
+      0 0 20px var(--primary),
+      0 0 30px var(--primary),
+      inset 0 0 10px rgba(255, 255, 255, 0.2);
+  }
+}
+
+.glow-button {
+  position: relative;
+  border: 2px solid var(--primary);
+  box-shadow: 
+    0 0 5px var(--primary),
+    0 0 10px var(--primary),
+    inset 0 0 5px rgba(255, 255, 255, 0.1);
+  animation: glow-pulse 2.5s ease-in-out infinite;
+}
+
+.glow-button:hover {
+  box-shadow: 
+    0 0 10px var(--primary),
+    0 0 20px var(--primary),
+    0 0 30px var(--primary),
+    inset 0 0 10px rgba(255, 255, 255, 0.2);
+  animation-duration: 1.5s;
+}
+
+/* Theme-specific glow colors */
+:root .glow-button {
+  --primary: #3b82f6;
+}
+
+.dark .glow-button {
+  --primary: #60a5fa;
+}
+
+.night .glow-button {
+  --primary: #ff8c00;
+}
+
+/* Respect user's motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .glow-button {
+    animation: none;
+    box-shadow: 
+      0 0 5px var(--primary),
+      0 0 10px var(--primary),
+      inset 0 0 5px rgba(255, 255, 255, 0.1);
+  }
+  
+  .glow-button:hover {
+    box-shadow: 
+      0 0 10px var(--primary),
+      0 0 20px var(--primary),
+      inset 0 0 10px rgba(255, 255, 255, 0.2);
+  }
+}
+
+/* Header text glow effect */
+.header-glow {
+  text-shadow: 
+    0 0 10px hsl(var(--primary) / 0.3),
+    0 0 20px hsl(var(--primary) / 0.2),
+    0 0 30px hsl(var(--primary) / 0.1);
+}
+
+/* Enhance icon visibility */
+.icon-primary {
+  color: hsl(var(--primary));
+  filter: drop-shadow(0 0 2px hsl(var(--primary) / 0.5));
+}

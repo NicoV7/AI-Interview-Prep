@@ -1,0 +1,23 @@
+{
+  "name": "ai-interview",
+  "version": "1.0.0",
+  "private": true,
+  "packageManager": "npm@10.2.4",
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "build": "turbo build",
+    "dev": "turbo dev",
+    "test": "turbo test",
+    "lint": "turbo lint",
+    "type-check": "turbo type-check"
+  },
+  "keywords": ["ai", "interview", "leetcode", "coding"],
+  "author": "",
+  "license": "MIT",
+  "description": "AI-powered interview preparation platform with progress tracking and roadmap generation",
+  "devDependencies": {
+    "turbo": "^2.5.6"
+  }
+}
