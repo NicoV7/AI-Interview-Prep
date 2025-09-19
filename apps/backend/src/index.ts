@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 import { healthRouter } from './routes/health';
 import { aiRouter } from './routes/ai';
 import { progressRouter } from './routes/progress';
+import { roadmapRouter } from './routes/roadmap';
 import { errorHandler } from './middleware/errorHandler';
 import { cookieConfigMiddleware } from './middleware/cookieConfig';
 
@@ -26,6 +27,7 @@ app.use(cookieConfigMiddleware);
 app.use('/health', healthRouter);
 app.use('/api/ai', aiRouter);
 app.use('/api/v1/progress', progressRouter);
+app.use('/api/v1/roadmap', roadmapRouter);
 
 app.use(errorHandler);
 
