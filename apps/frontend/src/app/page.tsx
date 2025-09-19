@@ -1,7 +1,35 @@
+'use client';
+
+import { useState, useEffect } from 'react';
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { TypewriterText } from "@/components/ui/TypewriterText";
+import { SetupWizard } from "@/components/setup/SetupWizard";
+import { hasValidConfig, getConfigSummary } from "@/lib/cookieConfig";
 
 export default function Home() {
+  const [isSetupOpen, setIsSetupOpen] = useState(false);
+  const [configStatus, setConfigStatus] = useState<{
+    isConfigured: boolean;
+    provider?: string;
+    model?: string;
+  } | null>(null);
+
+  useEffect(() => {
+    // Check configuration status from cookies
+    const isConfigured = hasValidConfig();
+    const summary = getConfigSummary();
+    
+    setConfigStatus({
+      isConfigured,
+      provider: summary?.provider,
+      model: summary?.model
+    });
+    
+    // Auto-open setup wizard if not configured
+    if (!isConfigured) {
+      setIsSetupOpen(true);
+    }
+  }, []);
   return (
     <div className="min-h-screen bg-background text-foreground">
       {/* Header with theme toggle */}
@@ -29,19 +57,46 @@ export default function Home() {
               Master coding interviews with AI-powered practice and personalized roadmaps
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button 
-                className="glow-button px-8 py-3 bg-primary text-primary-foreground rounded-lg font-semibold transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
-                data-testid="get-started-btn"
-              >
-                Get Started
-              </button>
-              <button 
+              {configStatus?.isConfigured ? (
+                <button
+                  className="glow-button px-8 py-3 bg-primary text-primary-foreground rounded-lg font-semibold transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
+                  data-testid="dashboard-btn"
+                  onClick={() => window.location.href = '/dashboard'}
+                >
+                  View Dashboard
+                </button>
+              ) : (
+                <button
+                  className="glow-button px-8 py-3 bg-primary text-primary-foreground rounded-lg font-semibold transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
+                  data-testid="get-started-btn"
+                  onClick={() => setIsSetupOpen(true)}
+                >
+                  Get Started
+                </button>
+              )}
+              <button
                 className="px-8 py-3 border-2 border-border hover:bg-accent hover:text-accent-foreground hover:border-accent text-foreground rounded-lg font-semibold transition-all"
-                data-testid="learn-more-btn"
+                data-testid="setup-btn"
+                onClick={() => setIsSetupOpen(true)}
               >
-                Learn More
+                {configStatus?.isConfigured ? 'Reconfigure' : 'Setup'}
               </button>
             </div>
+
+            {/* Configuration Status */}
+            {configStatus && (
+              <div className="mt-6 flex justify-center">
+                <div className={`px-4 py-2 rounded-full text-sm ${
+                  configStatus.isConfigured 
+                    ? 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 border border-green-300 dark:border-green-700'
+                    : 'bg-amber-100 dark:bg-amber-900 text-amber-800 dark:text-amber-200 border border-amber-300 dark:border-amber-700'
+                }`}>
+                  {configStatus.isConfigured 
+                    ? `✅ Ready with ${configStatus.provider} (${configStatus.model})` 
+                    : '⚙️ Setup required to get started'}
+                </div>
+              </div>
+            )}
           </div>
           
           <div className="mt-16 grid md:grid-cols-3 gap-8">
@@ -89,6 +144,23 @@ export default function Home() {
           </div>
         </div>
       </div>
+
+      <SetupWizard
+        isOpen={isSetupOpen}
+        onClose={() => setIsSetupOpen(false)}
+        onComplete={() => {
+          setIsSetupOpen(false);
+          // Refresh configuration status after setup completion
+          const isConfigured = hasValidConfig();
+          const summary = getConfigSummary();
+          
+          setConfigStatus({
+            isConfigured,
+            provider: summary?.provider,
+            model: summary?.model
+          });
+        }}
+      />
     </div>
   );
 }
